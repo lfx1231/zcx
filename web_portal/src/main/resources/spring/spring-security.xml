@@ -19,6 +19,7 @@
 		<!-- 匿名角色 IS_AUTHENTICATED_ANONYMOUSLY -->
 		<intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url> 
 		<intercept-url pattern="/itemsearch/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+		<intercept-url pattern="/content/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
         <!--拦截除了放行的路径和资源外的所有路径资源, 只有具有ROLE_USER权限才会放行-->
         <intercept-url pattern="/**" access="ROLE_USER"/>   
         <csrf disabled="true"/>  
