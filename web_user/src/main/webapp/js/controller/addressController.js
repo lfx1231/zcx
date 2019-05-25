@@ -62,4 +62,27 @@ app.controller('addressController' ,function($scope,$controller,$location,addres
     }
 
 
+    //查询所有省份集合
+    $scope.selectProvincesList=function () {
+        addressService.selectProvincesList().success(
+            function (response) {
+                $scope.provincesList=response;
+            }
+        )
+    }
+
+    // 查询二级城市列表:
+    $scope.$watch("entity.provincesid",function (newValue, oldValue) {
+        addressService.findByprovinceid(newValue).success(function(response){
+            $scope.citiesList = response;
+        });
+    })
+
+    //查询三级城市列表：
+    $scope.$watch("entity.citiesid",function (newValue, oldValue) {
+        addressService.findBycityid(newValue).success(function(response){
+            $scope.areasList = response;
+        });
+    })
+
 });	

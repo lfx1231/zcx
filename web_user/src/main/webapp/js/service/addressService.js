@@ -22,6 +22,17 @@ app.service('addressService',function($http){
 	this.dele=function(id){
 		return $http.get('../address/delete.do?id='+id);
 	}
+	//查询所有省份
+	this.selectProvincesList=function () {
+		return $http.get('../address/selectProvincesList.do?');
+    }
+    //查询省份下的所有城市列表
+    this.findByprovinceid=function (provincesid) {
+		return $http.get('../address/findByprovinceid.do?provincesid='+provincesid);
+    }
+    //查询城市下的所有区域列表：
+    this.findBycityid=function (citiesid) {
+        return $http.get('../address/findBycityid.do?citiesid='+citiesid);
+    }
 
-	
 });

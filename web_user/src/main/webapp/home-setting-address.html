@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="js/service/addressService.js"></script>
 </head>
 
-<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll()">
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll();selectProvincesList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -217,7 +217,7 @@ $(function(){
 										<td>{{entity.address}}</td>
 										<td>{{entity.mobile}}</td>
 										<td>
-											<a ng-click="findById(entity.id)" data-toggle="modal" data-target=".edit" >编辑</a>
+											<a data-toggle="modal" data-target=".edit" ng-click="findById(entity.id)">编辑</a>
 											<a ng-click="delete(entity.id)">删除</a>
 											<a href="#" >设为默认</a>
 										</td>
@@ -262,7 +262,7 @@ $(function(){
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.contact">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -270,27 +270,27 @@ $(function(){
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1"></select>
+                                                    <select class="form-control" id="province1" ng-model="entity.provincesid" ng-options="provinces.provinceid as provinces.province for provinces in provincesList"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="city1"></select>
+                                                    <select class="form-control select-sm" id="city1" ng-model="entity.citiesid" ng-options="cities.citiesid as cities.city for cities in citiesList"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="district1"></select>
+                                                    <select class="form-control select-sm" id="district1" ng-model="entity.areaid" ng-options="areas.areaid as areas.area for areas in areasList"></select>
                                                 </div>
+                                            	</div>
                                             </div>
-                                            </div>									 
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" class="input-large" ng-model="entity.address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.mobile">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -302,7 +302,7 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium"  ng-model="entity.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>

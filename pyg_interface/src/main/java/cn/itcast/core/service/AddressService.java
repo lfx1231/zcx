@@ -1,6 +1,9 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.address.Address;
+import cn.itcast.core.pojo.address.Areas;
+import cn.itcast.core.pojo.address.Cities;
+import cn.itcast.core.pojo.address.Provinces;
 
 import java.util.List;
 
@@ -37,4 +40,16 @@ public interface AddressService {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 获取所有省份集合
+     * @return
+     */
+    List<Provinces> selectProvincesList();
+
+    //根据省份id，查询所有的城市列表
+    List<Cities> findByprovinceid(String provincesid);
+
+    //根据城市id，查询所有的区域列表
+    List<Areas> findBycityid(String citiesid);
 }

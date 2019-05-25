@@ -1,6 +1,9 @@
 package cn.itcast.core.controller;
 
 import cn.itcast.core.pojo.address.Address;
+import cn.itcast.core.pojo.address.Areas;
+import cn.itcast.core.pojo.address.Cities;
+import cn.itcast.core.pojo.address.Provinces;
 import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.service.AddressService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -31,16 +34,47 @@ public class AddressController {
     }
 
     /**
+     * 获取所有省份的集合
+     * @return
+     */
+    @RequestMapping("/selectProvincesList")
+    public List<Provinces> selectProvincesList(){
+        return  addressService.selectProvincesList();
+    }
+
+    /**
+     * 根据省份id，查询所有的城市列表
+     * @param provincesid
+     * @return
+     */
+    @RequestMapping("/findByprovinceid")
+    public List<Cities> findByprovinceId(String provincesid){
+        return addressService.findByprovinceid(provincesid);
+    }
+
+    /**
+     * 根据城市id，查询所有的区域列表
+     * @param citiesid
+     * @return
+     */
+    @RequestMapping("/findBycityid")
+    public List<Areas> findBycityId(String citiesid){
+        return addressService.findBycityid(citiesid);
+    }
+
+
+    /**
      * 添加
      *
      * @param address
      * @return
      */
     @RequestMapping("/add")
-    public Result add(@RequestBody(required = false) Address address) {
+    public Result add(@RequestBody Address address) {
         try {
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
             address.setUserId(userName);
+            address.setIsDefault("0");
             address.setCreateDate(new Date());
             addressService.add(address);
             return new Result(true, "添加成功！");
