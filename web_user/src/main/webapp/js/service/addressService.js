@@ -19,9 +19,14 @@ app.service('addressService',function($http){
 		return  $http.post('../address/update.do',entity );
 	}
 	//通过id删除
-	this.dele=function(id){
-		return $http.get('../address/delete.do?id='+id);
+	this.delete=function(id){
+		return  $http.get('../address/delete.do?id='+id);
 	}
+	//设为默认地址
+    this.isDefault=function (id) {
+		return $http.get('../address/isDefault.do?id='+id);
+    }
+
 	//查询所有省份
 	this.selectProvincesList=function () {
 		return $http.get('../address/selectProvincesList.do?');

@@ -42,9 +42,14 @@ public interface AddressService {
     void delete(Long id);
 
     /**
-     * 获取所有省份集合
-     * @return
+     * 设置默认地址
+     * @param id
+     * @param userName
      */
+    void isDefault(Long id, String userName);
+
+
+    //获取所有省份集合
     List<Provinces> selectProvincesList();
 
     //根据省份id，查询所有的城市列表
@@ -52,4 +57,5 @@ public interface AddressService {
 
     //根据城市id，查询所有的区域列表
     List<Areas> findBycityid(String citiesid);
+
 }

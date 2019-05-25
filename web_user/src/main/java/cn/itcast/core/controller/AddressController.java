@@ -127,4 +127,22 @@ public class AddressController {
             return new Result(false, "删除失败！");
         }
     }
+
+    /**
+     * 设置默认地址
+     * @param id
+     * @return
+     */
+    @RequestMapping("/isDefault")
+    public Result isDefault(Long id){
+        try {
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            addressService.isDefault(id,userName);
+            return new Result(true, "设置默认地址成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "设置默认地址失败！");
+        }
+    }
+
 }

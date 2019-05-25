@@ -36,7 +36,7 @@ app.controller('addressController' ,function($scope,$controller,$location,addres
     }
 
     //查询一个
-    $scope.findById=function () {
+    $scope.findById=function (id) {
         addressService.findById(id).success(
             function (response) {
                 $scope.entity= response;
@@ -45,7 +45,7 @@ app.controller('addressController' ,function($scope,$controller,$location,addres
     }
 
     //删除
-	$scope.delete=function () {
+	$scope.delete=function (id) {
 		addressService.delete(id).success(
 			function(response){
                 // 判断删除是否成功:
@@ -61,6 +61,23 @@ app.controller('addressController' ,function($scope,$controller,$location,addres
 		)
     }
 
+    //设置为默认地址
+    $scope.isDefault=function (id) {
+        addressService.isDefault(id).success(
+            function(response){
+                // 判断设置默认是否成功:
+                if(response.success==true){
+                    // 设置成功
+                    alert(response.message);
+                    location.reload();
+                }else{
+                    // 设置失败
+                    alert(response.message);
+                }
+            }
+        )
+    }
+
 
     //查询所有省份集合
     $scope.selectProvincesList=function () {
@@ -72,14 +89,14 @@ app.controller('addressController' ,function($scope,$controller,$location,addres
     }
 
     // 查询二级城市列表:
-    $scope.$watch("entity.provincesid",function (newValue, oldValue) {
+    $scope.$watch("entity.provinceId",function (newValue, oldValue) {
         addressService.findByprovinceid(newValue).success(function(response){
             $scope.citiesList = response;
         });
     })
 
     //查询三级城市列表：
-    $scope.$watch("entity.citiesid",function (newValue, oldValue) {
+    $scope.$watch("entity.cityId",function (newValue, oldValue) {
         addressService.findBycityid(newValue).success(function(response){
             $scope.areasList = response;
         });

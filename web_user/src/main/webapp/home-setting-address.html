@@ -219,7 +219,7 @@ $(function(){
 										<td>
 											<a data-toggle="modal" data-target=".edit" ng-click="findById(entity.id)">编辑</a>
 											<a ng-click="delete(entity.id)">删除</a>
-											<a href="#" >设为默认</a>
+											<a ng-click="isDefault(entity.id)" style="{{entity.isDefault ==='1'?'color:black':'color:blue'}}">{{entity.isDefault ==='1'?'默认':'设为默认'}}</a>
 										</td>
 									</tr>
 
@@ -270,13 +270,13 @@ $(function(){
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1" ng-model="entity.provincesid" ng-options="provinces.provinceid as provinces.province for provinces in provincesList"></select>
+                                                    <select class="form-control" id="province1" ng-model="entity.provinceId" ng-options="provinces.provinceid as provinces.province for provinces in provincesList"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control select-sm" id="city1" ng-model="entity.citiesid" ng-options="cities.citiesid as cities.city for cities in citiesList"></select>
+                                                    <select class="form-control select-sm" id="city1" ng-model="entity.cityId" ng-options="cities.citiesid as cities.city for cities in citiesList"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control select-sm" id="district1" ng-model="entity.areaid" ng-options="areas.areaid as areas.area for areas in areasList"></select>
+                                                    <select class="form-control select-sm" id="district1" ng-model="entity.townId" ng-options="areas.areaid as areas.area for areas in areasList"></select>
                                                 </div>
                                             	</div>
                                             </div>

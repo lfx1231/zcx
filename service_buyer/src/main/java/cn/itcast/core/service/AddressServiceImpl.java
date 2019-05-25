@@ -7,6 +7,7 @@ import cn.itcast.core.dao.address.ProvincesDao;
 import cn.itcast.core.pojo.address.*;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -69,6 +70,29 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void delete(Long id) {
         addressDao.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 设置默认收件地址
+     * @param id
+     */
+    @Override
+    public void isDefault(Long id,String userName) {
+        //先将该用户默认地址状态全部改为0
+
+        Address address = new Address();
+        address.setIsDefault("0");
+
+        AddressQuery query = new AddressQuery();
+        AddressQuery.Criteria criteria = query.createCriteria();
+        criteria.andUserIdEqualTo(userName);
+
+        addressDao.updateByExampleSelective(address,query);
+
+        //通过设置新的默认地址
+        address.setId(id);
+        address.setIsDefault("1");
+        addressDao.updateByPrimaryKeySelective(address);
     }
 
     /**
