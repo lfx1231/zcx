@@ -148,4 +148,16 @@ public class AddressController {
         }
     }
 
+    /**
+     * 根据别名查询地址信息
+     * @param address
+     * @return
+     */
+    @RequestMapping("/findByAlias")
+    public Address findByAlias(@RequestBody Address address){
+        String alias = address.getAlias();
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return addressService.findByAlias(alias,userName);
+    }
+
 }

@@ -40,4 +40,9 @@ app.service('addressService',function($http){
         return $http.get('../address/findBycityid.do?citiesid='+citiesid);
     }
 
+    //根据别名查询地址信息
+	this.findByAlias=function (entity) {
+        return $http.post('../address/findByAlias.do?',entity);
+    }
+
 });

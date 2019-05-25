@@ -235,16 +235,6 @@ $(function(){
                                             默认地址
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>沈沉</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            <a href="#">设为默认</a>
-                                        </td>
-                                    </tr>
                                     -->
                                 </tbody>
                             </table>                          
@@ -270,13 +260,23 @@ $(function(){
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1" ng-model="entity.provinceId" ng-options="provinces.provinceid as provinces.province for provinces in provincesList"></select>
+                                                    <select class="form-control" id="province1" ng-model="entity.provinceId" ng-options="provinces.provinceid as provinces.province for provinces in provincesList">
+														<option value="">--请选择省份--</option>
+													</select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control select-sm" id="city1" ng-model="entity.cityId" ng-options="cities.citiesid as cities.city for cities in citiesList"></select>
+													<!--ng-options="cities.citiesid as cities.city for cities in citiesList"-->
+                                                    <select class="form-control" id="city1" ng-model="entity.cityId">
+														<option value="">--请选择城市--</option>
+														<option ng-repeat="cities in citiesList" value="{{cities.cityid}}" ng-selected="{{cities.cityid===entity.cityId}}">{{cities.city}}</option>
+													</select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control select-sm" id="district1" ng-model="entity.townId" ng-options="areas.areaid as areas.area for areas in areasList"></select>
+													<!-- ng-options="areas.areaid as areas.area for areas in areasList"-->
+                                                    <select class="form-control" id="district1" ng-model="entity.townId">
+														<option value="">--请选择区域--</option>
+														<option ng-repeat="areas in areasList" value="{{areas.areaid}}" }} ng-selected="{{areas.areaid===entity.townId}}">{{areas.area}}</option>
+													</select>
                                                 </div>
                                             	</div>
                                             </div>
@@ -294,7 +294,8 @@ $(function(){
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">邮箱：</label>
+											<!--数据库中没有邮箱字段，用notes字段代替-->
+                                            <label class="control-label" ng-model="entity.notes">邮箱：</label>
                                             <div class="controls">
                                                 <input type="text" class="input-medium">
                                             </div>
@@ -302,13 +303,12 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium"  ng-model="entity.alias">
-                                            </div>
-                                            <div class="othername">
-                                                建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
+                                                <input type="text" class="input-medium" ng-model="entity.alias">
                                             </div>
                                         </div>
-                                        
+										<div class="othername">
+											建议填写常用地址：<span ng-repeat="entity in list"><a ng-click="findByAlias()" class="sui-btn btn-default">{{entity.alias}}</a>&nbsp;&nbsp;</span>
+										</div>
                                         </form>
                                         
                                         

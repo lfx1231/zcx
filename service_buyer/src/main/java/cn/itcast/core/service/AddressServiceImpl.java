@@ -5,6 +5,7 @@ import cn.itcast.core.dao.address.AreasDao;
 import cn.itcast.core.dao.address.CitiesDao;
 import cn.itcast.core.dao.address.ProvincesDao;
 import cn.itcast.core.pojo.address.*;
+import cn.itcast.core.util.Constants;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -118,7 +119,11 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Provinces> selectProvincesList() {
-        return provincesDao.selectByExample(null);
+        List<Provinces> provincesList = (List<Provinces>)redisTemplate.boundValueOps(Constants.REDIS_PROVINCESLIST).get();
+        if (provincesList == null) {
+            provincesList = provincesDao.selectByExample(null);
+        }
+        return provincesList;
     }
 
     /**
@@ -128,10 +133,14 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Cities> findByprovinceid(String provincesid) {
-        CitiesQuery query = new CitiesQuery();
-        CitiesQuery.Criteria criteria = query.createCriteria();
-        criteria.andProvinceidEqualTo(provincesid);
-        return citiesDao.selectByExample(query);
+        List<Cities> citiesList = (List<Cities>)redisTemplate.boundValueOps(Constants.REDIS_CITIESLIST).get();
+        if (citiesList == null) {
+            CitiesQuery query = new CitiesQuery();
+            CitiesQuery.Criteria criteria = query.createCriteria();
+            criteria.andProvinceidEqualTo(provincesid);
+            citiesList = citiesDao.selectByExample(query);
+        }
+        return citiesList;
     }
 
     /**
@@ -141,9 +150,37 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Areas> findBycityid(String citiesid) {
-        AreasQuery query = new AreasQuery();
-        AreasQuery.Criteria criteria = query.createCriteria();
-        criteria.andCityidEqualTo(citiesid);
-        return areasDao.selectByExample(query);
+        List<Areas> areasList = (List<Areas>)redisTemplate.boundValueOps(Constants.REDIS_AREASLIST).get();
+        if (areasList == null) {
+            AreasQuery query = new AreasQuery();
+            AreasQuery.Criteria criteria = query.createCriteria();
+            criteria.andCityidEqualTo(citiesid);
+            areasList = areasDao.selectByExample(query);
+        }
+        return areasList;
+    }
+
+    /**
+     * 根据别名查询地址信息
+     * @param alias
+     * @param userName
+     * @return
+     */
+    @Override
+    public Address findByAlias(String alias, String userName) {
+        AddressQuery query = new AddressQuery();
+        AddressQuery.Criteria criteria = query.createCriteria();
+        if (userName != null) {
+            criteria.andUserIdEqualTo(userName);
+            if (alias != null){
+                criteria.andAliasEqualTo(alias);
+                List<Address> addressList = addressDao.selectByExample(query);
+                //默认返回第一个
+                if (addressList != null && addressList.size()>0) {
+                    return addressList.get(0);
+                }
+            }
+        }
+        return null;
     }
 }

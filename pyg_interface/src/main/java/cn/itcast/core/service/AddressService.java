@@ -58,4 +58,6 @@ public interface AddressService {
     //根据城市id，查询所有的区域列表
     List<Areas> findBycityid(String citiesid);
 
+    //根据别名查询地址信息
+    Address findByAlias(String alias, String userName);
 }
