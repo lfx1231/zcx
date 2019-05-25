@@ -8,7 +8,8 @@
 	<http pattern="/img/**" security="none"></http>
 	<http pattern="/js/**" security="none"></http>
 	<http pattern="/plugins/**" security="none"></http>
-	
+	<http pattern="/assets/img/favicon.ico" security="none"></http>
+
 	<http pattern="/index.html" security="none"></http>
 	<http pattern="/search.html" security="none"></http>
 	<http pattern="/cart.html" security="none"></http>
