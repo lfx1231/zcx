@@ -295,9 +295,9 @@ $(function(){
                                         </div>
                                         <div class="control-group">
 											<!--数据库中没有邮箱字段，用notes字段代替-->
-                                            <label class="control-label" ng-model="entity.notes">邮箱：</label>
+                                            <label class="control-label" >邮箱：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.notes">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -307,7 +307,7 @@ $(function(){
                                             </div>
                                         </div>
 										<div class="othername">
-											建议填写常用地址：<span ng-repeat="entity in list"><a ng-click="findByAlias()" class="sui-btn btn-default">{{entity.alias}}</a>&nbsp;&nbsp;</span>
+											建议填写常用地址：<span ng-repeat="entity in list"><a class="sui-btn btn-default">{{entity.alias}}</a>&nbsp;&nbsp;</span>
 										</div>
                                         </form>
                                         

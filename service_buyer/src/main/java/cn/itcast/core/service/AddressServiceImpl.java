@@ -160,27 +160,4 @@ public class AddressServiceImpl implements AddressService {
         return areasList;
     }
 
-    /**
-     * 根据别名查询地址信息
-     * @param alias
-     * @param userName
-     * @return
-     */
-    @Override
-    public Address findByAlias(String alias, String userName) {
-        AddressQuery query = new AddressQuery();
-        AddressQuery.Criteria criteria = query.createCriteria();
-        if (userName != null) {
-            criteria.andUserIdEqualTo(userName);
-            if (alias != null){
-                criteria.andAliasEqualTo(alias);
-                List<Address> addressList = addressDao.selectByExample(query);
-                //默认返回第一个
-                if (addressList != null && addressList.size()>0) {
-                    return addressList.get(0);
-                }
-            }
-        }
-        return null;
-    }
 }

@@ -7,11 +7,13 @@ import cn.itcast.core.pojo.address.Provinces;
 import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.service.AddressService;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.jboss.netty.handler.codec.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -146,18 +148,6 @@ public class AddressController {
             e.printStackTrace();
             return new Result(false, "设置默认地址失败！");
         }
-    }
-
-    /**
-     * 根据别名查询地址信息
-     * @param address
-     * @return
-     */
-    @RequestMapping("/findByAlias")
-    public Address findByAlias(@RequestBody Address address){
-        String alias = address.getAlias();
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return addressService.findByAlias(alias,userName);
     }
 
 }
