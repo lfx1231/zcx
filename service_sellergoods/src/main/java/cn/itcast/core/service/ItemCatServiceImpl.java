@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ItemCatServiceImpl implements  ItemCatService {
+public class ItemCatServiceImpl implements ItemCatService {
 
     @Autowired
     private ItemCatDao catDao;
@@ -33,7 +33,6 @@ public class ItemCatServiceImpl implements  ItemCatService {
                 redisTemplate.boundHashOps(Constants.REDIS_CATEGORYLIST).put(itemCat.getName(), itemCat.getTypeId());
             }
         }
-
         /**
          * 2. 根据父级id进行查询
          */
