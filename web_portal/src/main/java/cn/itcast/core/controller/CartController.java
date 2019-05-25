@@ -43,7 +43,7 @@ public class CartController {
      * @return
      */
     @RequestMapping("/addGoodsToCartList")
-    //解决跨域访问, origins="http://localhost:8081"指定响应返回到哪台服务器，page页面的
+    //解决跨域访问, origins="http://localhost:8081"指定响应来自于哪台服务器
     @CrossOrigin(origins="http://localhost:8081",allowCredentials="true")
     public Result addGoodsToCartList(Long itemId, Integer num) {
         //1. 获取当前登录用户名称
