@@ -10,9 +10,15 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript" src="/js/controller/baseController.js"></script>
+	<script type="text/javascript" src="js/controller/addressController.js"></script>
+	<script type="text/javascript" src="js/service/addressService.js"></script>
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -191,7 +197,7 @@ $(function(){
                     <div class="body userAddress">
                         <div class="address-title">
                             <span class="title">地址管理</span>
-                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new">添加新地址</a>
+                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new" ng-click="entity={}">添加新地址</a>
                             <span class="clearfix"></span>
                         </div>
                         <div class="address-detail">
@@ -205,6 +211,20 @@ $(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
+
+									<tr ng-repeat="entity in list">
+										<td>{{entity.contact}}</td>
+										<td>{{entity.address}}</td>
+										<td>{{entity.mobile}}</td>
+										<td>
+											<a ng-click="findById(entity.id)" data-toggle="modal" data-target=".edit" >编辑</a>
+											<a ng-click="delete(entity.id)">删除</a>
+											<a href="#" >设为默认</a>
+										</td>
+									</tr>
+
+
+									<!--
                                     <tr>
                                         <td>刘田田</td>
                                         <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
@@ -225,7 +245,7 @@ $(function(){
                                             <a href="#">设为默认</a>
                                         </td>
                                     </tr>
-                                    
+                                    -->
                                 </tbody>
                             </table>                          
                         </div>
@@ -294,7 +314,7 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="save()">确定</button>
                                         <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
                                     </div>
                                 </div>

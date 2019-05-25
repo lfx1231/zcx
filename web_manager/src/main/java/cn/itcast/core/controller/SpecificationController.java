@@ -34,6 +34,7 @@ public class SpecificationController {
      */
     @RequestMapping("/search")
     public PageResult search(@RequestBody Specification spec, Integer page, Integer rows) {
+
         PageResult pageResult = specificationService.findPage(spec, page, rows);
         return pageResult;
     }
