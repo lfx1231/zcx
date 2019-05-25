@@ -7,12 +7,15 @@ import cn.itcast.core.dao.address.ProvincesDao;
 import cn.itcast.core.pojo.address.*;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
+import static cn.itcast.core.util.Constants.REDIS_ADDRESSLIST;
+
 @Service
 public class AddressServiceImpl implements AddressService {
+
 
     @Autowired
     private AddressDao addressDao;
@@ -26,13 +29,22 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private AreasDao areasDao;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public List<Address> findListByUserId(String userId) {
-        AddressQuery example=new AddressQuery();
-        AddressQuery.Criteria criteria = example.createCriteria();
-        criteria.andUserIdEqualTo(userId);
-        return addressDao.selectByExample(example);
+        List<Address> addressList = (List<Address>)redisTemplate.boundHashOps(REDIS_ADDRESSLIST).get(userId);
 
+        if (addressList == null) {
+            AddressQuery example = new AddressQuery();
+            AddressQuery.Criteria criteria = example.createCriteria();
+            criteria.andUserIdEqualTo(userId);
+            addressList = addressDao.selectByExample(example);
+            //存入redis中一份
+            redisTemplate.boundHashOps(REDIS_ADDRESSLIST).put(userId, addressList);
+        }
+        return addressList;
     }
 
     /**
@@ -40,8 +52,9 @@ public class AddressServiceImpl implements AddressService {
      * @param address
      */
     @Override
-    public void add(Address address) {
+    public void add(Address address,String userId) {
         addressDao.insertSelective(address);
+        redisTemplate.boundHashOps(REDIS_ADDRESSLIST).delete(userId);
     }
 
     /**
@@ -59,8 +72,9 @@ public class AddressServiceImpl implements AddressService {
      * @param address
      */
     @Override
-    public void update(Address address) {
+    public void update(Address address,String userId) {
         addressDao.updateByPrimaryKeySelective(address);
+        redisTemplate.boundHashOps(REDIS_ADDRESSLIST).delete(userId);
     }
 
     /**
@@ -68,8 +82,9 @@ public class AddressServiceImpl implements AddressService {
      * @param id
      */
     @Override
-    public void delete(Long id) {
+    public void delete(Long id,String userId) {
         addressDao.deleteByPrimaryKey(id);
+        redisTemplate.boundHashOps(REDIS_ADDRESSLIST).delete(userId);
     }
 
     /**
@@ -93,6 +108,8 @@ public class AddressServiceImpl implements AddressService {
         address.setId(id);
         address.setIsDefault("1");
         addressDao.updateByPrimaryKeySelective(address);
+
+        redisTemplate.boundHashOps(REDIS_ADDRESSLIST).delete(userName);
     }
 
     /**

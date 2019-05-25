@@ -22,6 +22,7 @@ public class AddressController {
     @Reference
     private AddressService addressService;
 
+
     /**
      * 查询所有
      *
@@ -76,7 +77,7 @@ public class AddressController {
             address.setUserId(userName);
             address.setIsDefault("0");
             address.setCreateDate(new Date());
-            addressService.add(address);
+            addressService.add(address,userName);
             return new Result(true, "添加成功！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,8 +104,9 @@ public class AddressController {
     @RequestMapping("/update")
     public Result update(@RequestBody Address address){
         try {
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
             address.setCreateDate(new Date());
-            addressService.update(address);
+            addressService.update(address,userName);
             return new Result(true, "修改成功!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,7 +122,8 @@ public class AddressController {
     @RequestMapping("/delete")
     public Result delete(Long id){
         try {
-            addressService.delete(id);
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            addressService.delete(id,userName);
             return new Result(true, "删除成功!");
         } catch (Exception e) {
             e.printStackTrace();

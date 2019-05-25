@@ -20,7 +20,7 @@ public interface AddressService {
      * 添加收件信息
      * @param address
      */
-    void add(Address address);
+    void add(Address address,String userId);
 
     /**
      * 查询一个
@@ -33,13 +33,13 @@ public interface AddressService {
      * 修改
      * @param address
      */
-    void update(Address address);
+    void update(Address address,String userId);
 
     /**
      * 删除
      * @param id
      */
-    void delete(Long id);
+    void delete(Long id,String userId);
 
     /**
      * 设置默认地址
