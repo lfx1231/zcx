@@ -13,6 +13,7 @@
 	<http pattern="/index.html" security="none"></http>
 	<http pattern="/search.html" security="none"></http>
 	<http pattern="/cart.html" security="none"></http>
+
 <!-- 	<http pattern="/cart.html" security="none"></http> -->
     	
 	<!--   entry-point-ref  入口点引用 -->
@@ -21,6 +22,7 @@
 		<intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url> 
 		<intercept-url pattern="/itemsearch/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
 		<intercept-url pattern="/content/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/index/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
         <!--拦截除了放行的路径和资源外的所有路径资源, 只有具有ROLE_USER权限才会放行-->
         <intercept-url pattern="/**" access="ROLE_USER"/>   
         <csrf disabled="true"/>  

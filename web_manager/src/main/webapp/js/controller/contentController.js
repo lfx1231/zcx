@@ -96,4 +96,14 @@ app.controller('contentController' ,function($scope,$controller ,uploadService,c
 	}
 	
 	$scope.status = ["无效","有效"];
+
+
+
+        //查询商品分类信息
+        $scope.findItemCatList=function () {
+            indexService.findItemCatList().success(function (response) {
+                $scope.itemCatList=response;
+            })
+        }
+
 });	

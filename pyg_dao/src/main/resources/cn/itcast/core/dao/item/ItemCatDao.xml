@@ -198,5 +198,7 @@
       type_id = #{typeId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+<select id="findParentList" resultMap="BaseResultMap">
+  SELECT  parent_id FROM  tb_item_cat WHERE  parent_id=#{parentId,jdbcType=BIGINT}
+</select>
 </mapper>
