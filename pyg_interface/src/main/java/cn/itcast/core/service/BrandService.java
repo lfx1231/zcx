@@ -1,7 +1,10 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.entity.PageResult;
+import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.good.Brand;
+import cn.itcast.core.pojo.good.Goods;
+import org.apache.ibatis.mapping.ResultMap;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +24,6 @@ public interface BrandService {
     public void delete(Long[] ids);
 
     public List<Map> selectOptionList();
+
+    public void tianjia(Brand brand);
 }

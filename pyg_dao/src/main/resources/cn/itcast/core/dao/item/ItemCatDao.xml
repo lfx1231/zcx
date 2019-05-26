@@ -88,7 +88,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     id,parent_id,name,type_id
     from tb_item_cat
     where id = #{id,jdbcType=BIGINT}
@@ -104,10 +104,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.itcast.core.pojo.item.ItemCat" >
-    insert into tb_item_cat (id, parent_id, name, 
-      type_id)
-    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{typeId,jdbcType=BIGINT})
+    insert into tb_item_cat (id, parent_id, name,
+    type_id)
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    #{typeId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.itcast.core.pojo.item.ItemCat" >
     insert into tb_item_cat
@@ -169,9 +169,9 @@
   <update id="updateByExample" parameterType="map" >
     update tb_item_cat
     set id = #{record.id,jdbcType=BIGINT},
-      parent_id = #{record.parentId,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      type_id = #{record.typeId,jdbcType=BIGINT}
+    parent_id = #{record.parentId,jdbcType=BIGINT},
+    name = #{record.name,jdbcType=VARCHAR},
+    type_id = #{record.typeId,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -194,11 +194,27 @@
   <update id="updateByPrimaryKey" parameterType="cn.itcast.core.pojo.item.ItemCat" >
     update tb_item_cat
     set parent_id = #{parentId,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=BIGINT}
+    name = #{name,jdbcType=VARCHAR},
+    type_id = #{typeId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-<select id="findParentList" resultMap="BaseResultMap">
-  SELECT  parent_id FROM  tb_item_cat WHERE  parent_id=#{parentId,jdbcType=BIGINT}
-</select>
+
+  <sql id="Base_Column_List1">
+    id, parent_id, name, type_id
+  </sql>
+  <!--id为TbItemCatMapper接口的方法名-->
+  <select id="findItemCatListByParentId" resultType="cn.itcast.core.pojo.item.ItemCat">
+    select
+    /*这里查询直接用字段名，查询的性能会比用*高一点*/
+    <include refid="Base_Column_List1"/>
+    from
+    tb_item_cat
+    where
+    /*parentId为findItemCatListByParentId方法传递的参数*/
+    parent_id=#{parentId} limit 15
+  </select>
+
+
+
+
 </mapper>

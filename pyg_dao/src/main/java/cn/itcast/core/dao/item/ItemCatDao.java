@@ -1,6 +1,5 @@
 package cn.itcast.core.dao.item;
 
-import cn.itcast.core.pojo.entity.Item_Cat;
 import cn.itcast.core.pojo.item.ItemCat;
 import cn.itcast.core.pojo.item.ItemCatQuery;
 import java.util.List;
@@ -29,6 +28,5 @@ public interface ItemCatDao {
 
     int updateByPrimaryKey(ItemCat record);
 
-    List<Item_Cat>findParentList(@Param("parentId") Long parentId);
-
+    List<ItemCat> findItemCatListByParentId(@Param("parentId") Long parentId);
 }

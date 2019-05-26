@@ -1,6 +1,7 @@
 package cn.itcast.core.pojo.item;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ItemCat implements Serializable {
     /**
@@ -22,6 +23,29 @@ public class ItemCat implements Serializable {
      * 类型id
      */
     private Long typeId;
+
+    private List<ItemCat> itemCatList;
+
+    @Override
+    public String toString() {
+        return "ItemCat{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", name='" + name + '\'' +
+                ", typeId=" + typeId +
+                ", itemCatList=" + itemCatList +
+                '}';
+    }
+
+    public List<ItemCat> getItemCatList() {
+        return itemCatList;
+    }
+
+    public void setItemCatList(List<ItemCat> itemCatList) {
+        this.itemCatList = itemCatList;
+    }
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -58,21 +82,6 @@ public class ItemCat implements Serializable {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", name=").append(name);
-        sb.append(", typeId=").append(typeId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
-
-    @Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;
@@ -85,9 +94,9 @@ public class ItemCat implements Serializable {
         }
         ItemCat other = (ItemCat) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()));
+                && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()));
     }
 
     @Override

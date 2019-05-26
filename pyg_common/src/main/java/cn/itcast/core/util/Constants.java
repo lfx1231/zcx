@@ -15,6 +15,11 @@ public interface Constants {
     public final static String REDIS_CARTLIST = "pyg_cartList";
 
     public final static String REDIS_PAYLOG = "payLog";
-    public final static String REDIS_ITEMCAT = "itemCat";
 
+    public final static String REDIS_ADDRESSLIST = "addressList";
+    public final static String REDIS_PROVINCESLIST = "provincesList";
+    public final static String REDIS_CITIESLIST = "citiesList";
+    public final static String REDIS_AREASLIST = "areasList";
+
+    public final static String REDIS_ITEMCAT = "itemCat";
 }
