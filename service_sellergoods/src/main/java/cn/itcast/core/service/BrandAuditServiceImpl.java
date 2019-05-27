@@ -2,35 +2,48 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.good.BrandDao;
 import cn.itcast.core.pojo.entity.PageResult;
-import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.good.BrandQuery;
-import cn.itcast.core.pojo.good.Goods;
-import cn.itcast.core.pojo.good.GoodsQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
-public class BrandServiceImpl implements BrandService {
+public class BrandAuditServiceImpl implements BrandAuditService {
 
     @Autowired
     private BrandDao brandDao;
     @Autowired
     private RedisTemplate redisTemplate;
 
+
     @Override
     public List<Brand> findAll() {
-        return brandDao.selectByExample(null);
+        //根据常量从redis中获取数据
+        Set<String> pinpai = redisTemplate.boundHashOps("pinpai").keys();
+        //创建一个集合用于封装对象
+        List<Brand> brands = new ArrayList<>();
+        //遍历数据
+        for (String s : pinpai) {
+            //获取小key
+            String brandJSONStr = (String) redisTemplate.boundHashOps("pinpai").get(s);
+            //转换成json对象格式
+            Brand brand = JSON.parseObject(brandJSONStr, Brand.class);
+            //添加到集合中
+            brands.add(brand);
+        }
+        return brands;
+
     }
 
     @Override
@@ -59,13 +72,31 @@ public class BrandServiceImpl implements BrandService {
         return new PageResult(brandList.getTotal(), brandList.getResult());
     }
 
+
+
     @Override
-    public void add(Brand brand) {
+    public void add(Integer[] ids) {
         //不判断传入对象的属性是否为null, 所有属性必须有值, 要么会执行失败报错
         //brandDao.insert(brand);
         //会判断传入的对象中的每一个属性是否为null, 如果不为null才会参与拼接sql语句
+        Set<String> pinpai = redisTemplate.boundHashOps("pinpai").keys();
+        List<Brand> brands = new ArrayList<>();
+        for (String s : pinpai) {
+            //获取小key
+            String brandJSONStr = (String) redisTemplate.boundHashOps("pinpai").get(s);
+            //转换成json对象格式
+            Brand brand = JSON.parseObject(brandJSONStr, Brand.class);
+            brands.add(brand);
+        }
+        if (ids!=null) {
+            for (Integer id : ids) {
 
-        brandDao.insertSelective(brand);
+                brandDao.insertSelective(brands.get(id));
+                //从redis中删除缓存
+                redisTemplate.boundHashOps("pinpai").delete(brands.get(id).getName());
+            }
+
+        }
     }
 
     @Override
@@ -104,13 +135,7 @@ public class BrandServiceImpl implements BrandService {
         return brandDao.selectOptionList();
     }
 
-    @Override
-    public void tianjia(Brand brand) {
-        if (brand != null && !"".equals(brand)) {
-            String s = JSON.toJSONString(brand);
-            redisTemplate.boundHashOps("pinpai").put(brand.getName(), s);
-        }
-    }
+
 
 }
 
